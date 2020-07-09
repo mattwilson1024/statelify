@@ -15,6 +15,7 @@
     }
   },
   "scripts": {
+    "build": "yarn build:cjs",
     "build:cjs": "tsc",
     "build:esm": "tsc -m ES2020 --outDir dist/lib-esm",
     "test": "jest",
