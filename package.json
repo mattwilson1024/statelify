@@ -36,5 +36,8 @@
     "jest": "26.0.1",
     "semantic-release": "17.0.7",
     "typescript": "3.9.2"
+  },
+  "dependencies": {
+    "rxjs": "6.6.0"
   }
 }
