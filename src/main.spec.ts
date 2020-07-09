@@ -1,7 +1,7 @@
-import { hello } from './main'
+import { getGreeting } from './main';
 
 describe('main', () => {
-  it('should run', () => {
-    hello();
+  it('should return a greeting', () => {
+    expect(getGreeting()).toBe('Hello World');
   })
 })

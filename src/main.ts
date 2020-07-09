@@ -1,5 +1,3 @@
-export function hello() {
-  console.log('Hello World2');
+export function getGreeting() {
+  return 'Hello World';
 }
-
-hello();
