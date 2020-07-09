@@ -9,14 +9,29 @@ export type ItemDefinitionsFor<T> = {
 }
 
 export interface IStateItemDefinition<T> {
-  mapper: any;
+  mapper?: IMapper<T>;
   defaultValue?: T;
 }
 
 export interface IStatelifyConfig<T> {
-  adapter: any;
+  adapter: IAdapter;
   itemDefinitions: ItemDefinitionsFor<Required<T>>;
 }
+
+export interface IMapper<T> {
+  fromString(val: string): T;
+  toString(val: T): string;
+}
+
+export interface IAdapter {
+  stateChanged$: Observable<AdapterState>;
+
+  someFunction(): string;
+}
+
+export type AdapterState = { [ item: string ]: string }
+
+
 
 /**
  *

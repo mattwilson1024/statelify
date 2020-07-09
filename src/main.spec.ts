@@ -1,4 +1,7 @@
+import { Observable, Subject } from 'rxjs';
 import { Statelify } from './main';
+import { IntMapper } from './mappers/int-mapper';
+import { AdapterState, IAdapter } from './statelify.model';
 
 interface ExampleParams {
   page: number;
@@ -6,29 +9,60 @@ interface ExampleParams {
   search?: string;
 }
 
-describe('main', () => {
-  it('should expose Observables for each parameter in the config', () => {
+export class ExampleAdapter implements IAdapter {
+  public stateChanged$: Observable<AdapterState>;
+  private stateChangedSubject$ = new Subject<AdapterState>();
 
-    const statelify = new Statelify<ExampleParams>({
-      adapter: null,
+  constructor() {
+    this.stateChanged$ = this.stateChangedSubject$.asObservable();
+  }
+
+  public simulateRouterChange(simulatedAdapterState: AdapterState): void {
+    this.stateChangedSubject$.next(simulatedAdapterState);
+  }
+
+  someFunction(): string {
+    throw new Error('Method not implemented.');
+  }
+}
+
+describe('main', () => {
+  let adapter: ExampleAdapter;
+  let statelify: Statelify<ExampleParams>;
+
+  beforeEach(() => {
+    adapter = new ExampleAdapter();
+    statelify = new Statelify<ExampleParams>({
+      adapter,
       itemDefinitions: {
         page: {
-          mapper: null
+          mapper: IntMapper
         },
         pageSize: {
-          mapper: null
+          mapper: IntMapper
         },
         search: {
-          mapper: null
         }
       }
     });
+  });
 
+  it('should expose Observables for each parameter in the config', () => {
     expect(statelify.state.page).toBeDefined();
     expect(statelify.state.pageSize).toBeDefined();
     expect(statelify.state.search).toBeDefined();
+  });
 
-  })
+  it('should emit the new value when a watched value changes on the adapter', () => {
+    let pageOutputs: number[] = [];
+    statelify.state.page.subscribe(page => pageOutputs.push(page));
+
+    adapter.simulateRouterChange({
+      page: '2'
+    });
+
+    expect(pageOutputs).toEqual([2]);
+  });
 })
 
 
