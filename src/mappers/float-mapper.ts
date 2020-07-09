@@ -1,8 +1,8 @@
 import { IMapper } from '../statelify.model';
 
-export const IntMapper: IMapper<number> = {
+export const FloatMapper: IMapper<number> = {
   fromString(stringValue: string): number {
-    return parseInt(stringValue, 10);
+    return parseFloat(stringValue);
   },
   toString(typedValue: number): string {
     return typedValue.toString();

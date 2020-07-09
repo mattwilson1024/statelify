@@ -1,10 +1,10 @@
 import { IMapper } from '../statelify.model';
 
 export const DefaultMapper: IMapper<any> = {
-  fromString(val: string): any {
-    return val;
+  fromString(stringValue: string): any {
+    return stringValue;
   },
-  toString(val: any): string {
-    return val as string;
+  toString(typedValue: any): string {
+    return typedValue as string;
   }
 }

@@ -19,14 +19,12 @@ export interface IStatelifyConfig<T> {
 }
 
 export interface IMapper<T> {
-  fromString(val: string): T;
-  toString(val: T): string;
+  fromString(stringValue: string): T;
+  toString(typedValue: T): string;
 }
 
 export interface IAdapter {
   stateChanged$: Observable<AdapterState>;
-
-  someFunction(): string;
 }
 
 export type AdapterState = { [ item: string ]: string }
